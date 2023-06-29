@@ -13,7 +13,21 @@ const initialState = {
   steps: initialSteps,
 }
 
+const URL = 'POST http://localhost:9000/api/result'
+
 export default class AppClass extends React.Component {
+  
+   state = {
+   Message:'',
+   Email:'',
+   Steps:0,
+   Index:4, // the index the "B" is at
+   X: [1,2,3],
+   Y: [1,2,3],
+   };
+    
+
+
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
 
@@ -53,11 +67,13 @@ export default class AppClass extends React.Component {
 
   render() {
     const { className } = this.props
+    const {Steps} = this.state
+
     return (
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">Coordinates (2, 2)</h3>
-          <h3 id="steps">You moved 0 times</h3>
+          <h3 id="steps">You moved {Steps} times</h3>
         </div>
         <div id="grid">
           {
@@ -83,6 +99,14 @@ export default class AppClass extends React.Component {
           <input id="submit" type="submit"></input>
         </form>
       </div>
-    )
-  }
-}
+    );
+        }
+      }
+      
+      
+   
+    
+
+
+ 
+
