@@ -1,3 +1,4 @@
+import e from 'cors'
 import React from 'react'
 
 // Suggested initial states
@@ -16,22 +17,34 @@ const initialState = {
 const URL = 'POST http://localhost:9000/api/result'
 
 export default class AppClass extends React.Component {
-  
-   state = {
-   Message:'',
-   Email:'',
-   Steps:0,
-   index:4, // the index the "B" is at
-   x: 2,
-   y: 2,
-   }
-    
 
+  state = {
+    Message: '',
+    Email: '',
+    Steps: 0,
+    index: 4, // the index the "B" is at
+    x: 2,
+    y: 2,
+    //jasmin: true,
+  }
+
+  
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.index !== this.state.index){
+      console.log(this.state.index);
+    }
+  }
+
+ // addOne = () => {
+   // const newSteps = (this.state.Steps =+ 1)
+  //  console.log(newSteps, 'WATERMELON');
+   // return (newSteps);
+ // }
 
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
 
-    getXY = () => {
+  getXY = () => {
     const { index } = this.state
     const x = (index % 3) + 1
     let y
@@ -41,50 +54,87 @@ export default class AppClass extends React.Component {
     this.state.x = x
     this.state.y = y
     return [x, y]
-    }
-  
-    
-    
-   
-    
-    // It it not necessary to have a state to track the coordinates.
-    // It's enough to know what index the "B" is at, to be able to calculate them.
-  
+  }
 
-   getXYMessage = () => {
-    const Cor = `(${this.state.x},${this.state.y})`
+
+
+
+
+  // It it not necessary to have a state to track the coordinates.
+  // It's enough to know what index the "B" is at, to be able to calculate them.
+
+
+  getXYMessage = () => {
+    const Cor = `(${this.state.x}, ${this.state.y})`
     console.log(Cor);
     return (Cor)
-    
-         
+
+
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
-   }
+  }
 
   reset = () => {
     // Use this helper to reset all states to their initial values.
   }
 
   getNextIndex = (direction) => {
-    switch(direction){case 'up':
-    return (index < 3) ? index : index - 3
-  case 'down':
-    return (index > 5) ? index : index + 3
-  case 'left':
-    return (index % 3 === 0) ? index : index - 1
-  case 'right':
-    return ((index - 2) % 3 === 0) ? index : index + 1}
+    const { index } = this.state
+    switch (direction) {
+      case 'up':
+        return (index < 3) ? index : index - 3
+      case 'down':
+        return (index > 5) ? index : index + 3
+      case 'left':
+        return (index % 3 === 0) ? index : index - 1
+      case 'right':
+        return ((index - 2) % 3 === 0) ? index : index + 1
+    }
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
     // this helper should return the current index unchanged.
   }
 
-  move = (evt) => {
+  up = () => {
+    //this.getNextIndex('up')
+    const newIndex = this.getNextIndex('up');
+    //console.log(newIndex,'WATERMELON')
+    this.setState({...this.state,
+    index: newIndex});
+
+    //const newSteps= this.Steps + 1
+    //this.setState({...this.state,
+    //Steps: newSteps});
+  }
+
+   down = () => {
+    const newIndex = this.getNextIndex('down');
+    this.setState({...this.state,
+    index: newIndex});
+  }
+
+  left = () => {
+    const newIndex = this.getNextIndex('left');
+    this.setState({...this.state,
+    index: newIndex});
+  }
+   
+  right = () => {
+    const newIndex = this.getNextIndex('right');
+    this.setState({...this.state,
+    index: newIndex});
+  }
+
+
+    //const newJasmin = false
+//this.setState({...this.state,
+//jasmin: newJasmin});
     
+
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
-  }
+  
 
   onChange = (evt) => {
     // You will need this to update the value of the input.
@@ -96,7 +146,7 @@ export default class AppClass extends React.Component {
 
   render() {
     const { className } = this.props
-    const {Steps} = this.state
+    const { Steps } = this.state
 
     return (
       <div id="wrapper" className={className}>
@@ -117,10 +167,10 @@ export default class AppClass extends React.Component {
           <h3 id="message"></h3>
         </div>
         <div id="keypad">
-          <button id="left">LEFT</button>
-          <button id="up">UP</button>
-          <button id="right">RIGHT</button>
-          <button id="down">DOWN</button>
+          <button onClick={this.left} id="left">LEFT</button>
+          <button onClick={this.up} id="up">UP</button>
+          <button onClick={this.right} id="right">RIGHT</button>
+          <button onClick={this.down} id="down">DOWN</button>
           <button id="reset">reset</button>
         </div>
         <form>
@@ -129,13 +179,13 @@ export default class AppClass extends React.Component {
         </form>
       </div>
     );
-        }
-      }
-      
-      
-   
-    
+  }
+}
 
 
- 
+
+
+
+
+
 
