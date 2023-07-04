@@ -14,7 +14,7 @@ const initialState = {
   steps: initialSteps,
 }
 
-const URL = 'POST http://localhost:9000/api/result'
+
 
 export default class AppClass extends React.Component {
 
@@ -23,17 +23,16 @@ export default class AppClass extends React.Component {
     Email: '',
     Steps: 0,
     index: 4, // the index the "B" is at
-    x: 2,
-    y: 2,
+    
     //jasmin: true,
   }
 
   
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.index !== this.state.index){
-      console.log(this.state.index);
-    }
-  }
+  //componentDidUpdate = (prevProps, prevState) => {
+   // if (prevState.index !== this.state.index){
+     // console.log(this.state.index);
+   // }
+//  }
 
  // addOne = () => {
    // const newSteps = (this.state.Steps =+ 1)
@@ -65,9 +64,11 @@ export default class AppClass extends React.Component {
 
 
   getXYMessage = () => {
-    const Cor = `(${this.state.x}, ${this.state.y})`
-    console.log(Cor);
-    return (Cor)
+    const [x, y] = this.getXY()
+    return `Coordinates (${x}, ${y})`
+    //const Cor = `Coordinates (${this.state.x}, ${this.state.y})`
+   // console.log(Cor);
+    //return (Cor)
 
 
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
@@ -76,8 +77,15 @@ export default class AppClass extends React.Component {
   }
 
   reset = () => {
-    // Use this helper to reset all states to their initial values.
-  }
+    this.setState({
+    Message: '',
+    Email:'',
+    Steps: 0,
+    index: 4
+  })
+}
+  // Use this helper to reset all states to their initial values.
+  
 
   getNextIndex = (direction) => {
     const { index } = this.state
@@ -96,12 +104,25 @@ export default class AppClass extends React.Component {
     // this helper should return the current index unchanged.
   }
 
-  up = () => {
-    //this.getNextIndex('up')
-    const newIndex = this.getNextIndex('up');
-    //console.log(newIndex,'WATERMELON')
-    this.setState({...this.state,
-    index: newIndex});
+  move = (evt) => {
+    const direction = evt.target.id
+    const nextIndex = this.getNextIndex(direction)
+    //const newCor = this.getXYMessage(this.Cor)
+    if (nextIndex !== this.state.index) {
+      this.setState({
+        ...this.state,
+        Steps: this.state.Steps + 1,
+        message: initialMessage,
+        index: nextIndex,
+        //x: newCor,
+      })
+    } else {
+      this.setState({
+        ...this.state,
+        message: `You can't go ${direction}`,
+      })
+    }
+  
 
     //const newSteps= this.Steps + 1
     //this.setState({...this.state,
@@ -111,19 +132,22 @@ export default class AppClass extends React.Component {
    down = () => {
     const newIndex = this.getNextIndex('down');
     this.setState({...this.state,
-    index: newIndex});
+    index: newIndex,
+    Steps: this.state.Steps + 1,});
   }
 
   left = () => {
     const newIndex = this.getNextIndex('left');
     this.setState({...this.state,
-    index: newIndex});
+    index: newIndex,
+    Steps: this.state.Steps + 1,});
   }
    
   right = () => {
     const newIndex = this.getNextIndex('right');
     this.setState({...this.state,
-    index: newIndex});
+    index: newIndex,
+    Steps: this.state.Steps + 1,});
   }
 
 
@@ -137,10 +161,15 @@ export default class AppClass extends React.Component {
   
 
   onChange = (evt) => {
+    this.setState ({Email: evt.target.value});
     // You will need this to update the value of the input.
   }
 
   onSubmit = (evt) => {
+    evt.preventDefault();
+    componentDidMount()
+    const URL = 'POST http://localhost:9000/api/result'
+    
     // Use a POST request to send a payload to the server.
   }
 
@@ -151,14 +180,14 @@ export default class AppClass extends React.Component {
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates {this.getXYMessage()}</h3>
+          <h3 id="coordinates">{this.getXYMessage()}</h3>
           <h3 id="steps">You moved {Steps} times</h3>
         </div>
         <div id="grid">
           {
             [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => (
-              <div key={idx} className={`square${idx === 4 ? ' active' : ''}`}>
-                {idx === 4 ? 'B' : null}
+              <div key={idx} className={`square${idx === this.state.index ? ' active' : ''}`}>
+                {idx === this.state.index ? 'B' : null}
               </div>
             ))
           }
@@ -167,14 +196,18 @@ export default class AppClass extends React.Component {
           <h3 id="message"></h3>
         </div>
         <div id="keypad">
-          <button onClick={this.left} id="left">LEFT</button>
-          <button onClick={this.up} id="up">UP</button>
-          <button onClick={this.right} id="right">RIGHT</button>
-          <button onClick={this.down} id="down">DOWN</button>
-          <button id="reset">reset</button>
+          <button onClick={this.move} id="left">LEFT</button>
+          <button onClick={this.move} id="up">UP</button>
+          <button onClick={this.move} id="right">RIGHT</button>
+          <button onClick={this.move} id="down">DOWN</button>
+          <button onClick={this.reset} id="reset">reset</button>
         </div>
         <form>
-          <input id="email" type="email" placeholder="type email"></input>
+          <input 
+          //value={this.onChange()}
+          //onChange={change}
+          //type="text"
+          id="email" type="email" placeholder="type email"></input>
           <input id="submit" type="submit"></input>
         </form>
       </div>
