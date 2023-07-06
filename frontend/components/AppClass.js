@@ -1,5 +1,6 @@
 import e from 'cors'
 import React from 'react'
+import axios from 'axios'
 
 // Suggested initial states
 const initialMessage = ''
@@ -161,17 +162,34 @@ export default class AppClass extends React.Component {
   
 
   onChange = (evt) => {
-    this.setState ({Email: evt.target.value});
+    const newEmail = evt.target.value
+    console.log(newEmail,'APPLE')
+    this.setState({...this.state,
+    Email: newEmail
+  })
     // You will need this to update the value of the input.
   }
 
   onSubmit = (evt) => {
+    //debugger;
     evt.preventDefault();
-    componentDidMount()
-    const URL = 'POST http://localhost:9000/api/result'
-    
+    //const URL = ("http://localhost:9000/api/result")
+    let payload = {
+      x: x,
+      y: y,
+      Steps: this.state.Steps,
+      Email: this.state.Email
+      }
+      axios.post("http://localhost:9000/api/result", payload)
+      console.log(onSubmit(),'STRAWBERRY');
+      //console.log(payload,'STRAWBERRY');
     // Use a POST request to send a payload to the server.
-  }
+    };
+    
+     
+  
+
+
 
   render() {
     const { className } = this.props
@@ -204,11 +222,15 @@ export default class AppClass extends React.Component {
         </div>
         <form>
           <input 
-          //value={this.onChange()}
-          //onChange={change}
-          //type="text"
-          id="email" type="email" placeholder="type email"></input>
-          <input id="submit" type="submit"></input>
+          value={this.value}
+          onChange={this.onChange}
+          id="email" 
+          type="email" 
+          placeholder="type email"></input>
+          <input 
+          onSubmit={this.onSubmit}
+          id="submit" 
+          type="submit"></input>
         </form>
       </div>
     );
