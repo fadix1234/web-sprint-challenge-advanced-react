@@ -113,14 +113,14 @@ export default class AppClass extends React.Component {
       this.setState({
         ...this.state,
         Steps: this.state.Steps + 1,
-        message: initialMessage,
+        Message: initialMessage,
         index: nextIndex,
         //x: newCor,
       })
     } else {
       this.setState({
         ...this.state,
-        message: `You can't go ${direction}`,
+        Message: `You can't go ${direction}`,
       })
     }
   
@@ -128,7 +128,7 @@ export default class AppClass extends React.Component {
     //const newSteps= this.Steps + 1
     //this.setState({...this.state,
     //Steps: newSteps});
-  }
+      }
 
    down = () => {
     const newIndex = this.getNextIndex('down');
@@ -180,9 +180,7 @@ export default class AppClass extends React.Component {
       Steps: this.state.Steps,
       Email: this.state.Email
       }
-      axios.post("http://localhost:9000/api/result", payload)
-      console.log(onSubmit(),'STRAWBERRY');
-      //console.log(payload,'STRAWBERRY');
+      axios.post("http://localhost:9000/api/result",payload)
     // Use a POST request to send a payload to the server.
     };
     
@@ -211,7 +209,7 @@ export default class AppClass extends React.Component {
           }
         </div>
         <div className="info">
-          <h3 id="message"></h3>
+          <h3 id="message">{this.state.Message}</h3>
         </div>
         <div id="keypad">
           <button onClick={this.move} id="left">LEFT</button>
