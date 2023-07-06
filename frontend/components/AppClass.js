@@ -108,14 +108,14 @@ export default class AppClass extends React.Component {
   move = (evt) => {
     const direction = evt.target.id
     const nextIndex = this.getNextIndex(direction)
-    //const newCor = this.getXYMessage(this.Cor)
+
     if (nextIndex !== this.state.index) {
       this.setState({
         ...this.state,
         Steps: this.state.Steps + 1,
         Message: initialMessage,
         index: nextIndex,
-        //x: newCor,
+       
       })
     } else {
       this.setState({
@@ -165,7 +165,8 @@ export default class AppClass extends React.Component {
     const newEmail = evt.target.value
     console.log(newEmail,'APPLE')
     this.setState({...this.state,
-    Email: newEmail
+    Email: newEmail,
+    Message: `${evt.target.value} win # ${Math.random()}`
   })
     // You will need this to update the value of the input.
   }
