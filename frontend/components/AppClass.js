@@ -199,6 +199,7 @@ export default class AppClass extends React.Component {
       .then((res) => {
         this.setState({
         Message: res.data.message,
+        Email: '',
        })
        
 
@@ -256,6 +257,7 @@ export default class AppClass extends React.Component {
           <input 
           onClick={this.onSubmit}
           id="submit" 
+          value = {this.Email}
           type="submit"></input>
         </form>
       </div>
