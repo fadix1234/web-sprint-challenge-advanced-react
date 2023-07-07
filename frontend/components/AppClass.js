@@ -249,7 +249,7 @@ export default class AppClass extends React.Component {
         </div>
         <form>
           <input 
-          value={this.value}
+          value = {this.state.Email}
           onChange={this.onChange}
           id="email" 
           type="email" 
@@ -257,7 +257,6 @@ export default class AppClass extends React.Component {
           <input 
           onClick={this.onSubmit}
           id="submit" 
-          value = {this.Email}
           type="submit"></input>
         </form>
       </div>
