@@ -25,6 +25,7 @@ export default class AppClass extends React.Component {
     Steps: 0,
     index: 4, // the index the "B" is at
     
+    
     //jasmin: true,
   }
 
@@ -76,6 +77,19 @@ export default class AppClass extends React.Component {
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
   }
+  
+  getTime = () => {
+    if(this.state.Steps === 1){
+    return `time`
+  }else{
+    this.state.Steps 
+    return 'times'
+
+  }
+
+   }
+
+
 
   reset = () => {
     this.setState({
@@ -166,7 +180,7 @@ export default class AppClass extends React.Component {
     console.log(newEmail,'APPLE')
     this.setState({...this.state,
     Email: newEmail,
-    Message: `${evt.target.value} win # ${Math.random()}`
+    //Message: `${evt.target.value}`
   })
     // You will need this to update the value of the input.
   }
@@ -174,14 +188,27 @@ export default class AppClass extends React.Component {
   onSubmit = (evt) => {
     //debugger;
     evt.preventDefault();
-    //const URL = ("http://localhost:9000/api/result")
+    
     let payload = {
-      x: x,
-      y: y,
-      Steps: this.state.Steps,
-      Email: this.state.Email
+      x: this.state.x,
+      y: this.state.y,
+      steps: this.state.Steps,
+      email: this.state.Email
       }
       axios.post("http://localhost:9000/api/result",payload)
+      .then((res) => {
+        this.setState({
+        Message: res.data.message,
+       })
+       
+
+
+      console.log(res,'BERRY');
+      console.log(res.data.message);
+    
+    })
+
+
     // Use a POST request to send a payload to the server.
     };
     
@@ -198,7 +225,7 @@ export default class AppClass extends React.Component {
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">{this.getXYMessage()}</h3>
-          <h3 id="steps">You moved {Steps} times</h3>
+          <h3 id="steps">You moved {Steps} {this.getTime()}</h3>
         </div>
         <div id="grid">
           {
@@ -227,7 +254,7 @@ export default class AppClass extends React.Component {
           type="email" 
           placeholder="type email"></input>
           <input 
-          onSubmit={this.onSubmit}
+          onClick={this.onSubmit}
           id="submit" 
           type="submit"></input>
         </form>
