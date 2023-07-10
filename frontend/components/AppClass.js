@@ -91,6 +91,8 @@ export default class AppClass extends React.Component {
 
 
 
+
+
   reset = () => {
     this.setState({
     Message: '',
@@ -201,13 +203,24 @@ export default class AppClass extends React.Component {
         Message: res.data.message,
         Email: '',
        })
+       console.log(res,'BERRY');
+       console.log(res.data.message);
+      })
+      .catch((err) => {
+        this.setState({
+          Message: err.response.data.message,
+        })
+      console.log(err,'FRUIT');
+      console.log(err.response.data.message);
+        });
+      
+       
        
 
 
-      console.log(res,'BERRY');
-      console.log(res.data.message);
+     
     
-    })
+    
 
 
     // Use a POST request to send a payload to the server.
